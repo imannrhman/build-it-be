@@ -1,0 +1,7 @@
+# version: "3.7" # Uncomment for older compose versions
+services:
+  build-it-be:
+    container_name: build-it-be
+    build: .
+    ports:
+      - "8000:8000"

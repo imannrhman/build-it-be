@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "build-it-be"
+version = "0.1.0"
+description = ""
+authors = ["Iman <iman@gits.id>"]
+readme = "README.md"
+packages = [{include = "build_it_be"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.85.1"
+uvicorn = "^0.19.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
