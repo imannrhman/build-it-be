@@ -10,3 +10,4 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(TIMESTAMP, server_default='now()')
     updated_at = Column(TIMESTAMP, server_default='now()', onupdate='now()')
+    roles = Column(String, server_default='')

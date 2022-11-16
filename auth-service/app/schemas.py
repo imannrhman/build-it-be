@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
+from enum import Enum
 
 class User(BaseModel):
     id: Optional[int]
@@ -22,3 +23,13 @@ class TokenData(BaseModel):
     id: Optional[int] = None
     exp: Optional[datetime] = None
 
+class Roles(str, Enum):
+    Arsitek = 'arsitek'
+    User = 'user'
+    Toko = 'toko'
+    Tukang = 'tukang'
+
+class RegisterUser(BaseModel):
+    email: EmailStr
+    password: str
+    roles: Roles

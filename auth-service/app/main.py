@@ -27,8 +27,8 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
     return {"token": access_token, "token_type": "Bearer", "expires_in": auth.ACCESS_TOKEN_EXPIRE_MINUTES+" seconds"}
 
 @app.post('/register', response_model=schemas.UserOut)
-def register(user: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    new_user = models.User(email=user.username, password=utils.hash_password(user.password))
+def register(user: schemas.RegisterUser, db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
