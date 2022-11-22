@@ -1,16 +1,35 @@
 import asyncio
+import os
+from json import loads
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import AsyncEngine
+from sqlmodel import SQLModel
+
+from app.model.product import Product
 
 from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+
+target_metadata = SQLModel.metadata
+
+target_metadata.naming_convention = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)"
+          "s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -22,6 +41,25 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = None
+
+exclude_tables = loads(os.getenv("DATABASE_URI"))
+
+
+def filter_db_objects(
+        object,  # noqa: indirect usage
+        name,
+        type_,
+        *args,  # noqa: indirect usage
+        **kwargs  # noqa: indirect usage
+):
+    if type_ == "table":
+        return name not in exclude_tables
+
+    if type_ == "index" and name.startswith("idx") and name.endswith("geom"):
+        return False
+
+    return True
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

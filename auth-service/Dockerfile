@@ -13,6 +13,9 @@ ENV ENV_FILE=${ENV_FILE} \
 
 
 # System deps:
+RUN pip install psycopg2-binary
+RUN pip install pydantic[email]
+RUN pip install python-multipart
 RUN pip install "poetry==$POETRY_VERSION"
 
 # Copy only requirements to cache them in docker layer

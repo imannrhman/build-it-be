@@ -13,7 +13,7 @@ class Category(
     UUIDModel,
     CategoryBase,
     TimestampModel,
-    Table=True
+    table=True
 ):
     __tablename__ = "categories"
 
@@ -29,10 +29,3 @@ class CategoryCreate(CategoryBase):
 class CategoryPatch(CategoryBase):
     name: Optional[str] = Field(max_length=255)
 
-
-class CategoryProduct(
-    UUIDModel,
-    CategoryBase,
-    Table=True
-):
-    __tablename__ = "categories"

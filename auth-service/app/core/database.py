@@ -1,19 +1,18 @@
-import os
-from sys import modules
+
 
 from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
 from sqlmodel.ext.asyncio.session import AsyncSession
+
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
 
 database_uri = os.getenv('DATABASE_URI')
-if "pytest" in modules:
-    database_uri = database_uri
 
 async_engine = create_async_engine(
-    database_uri,
+    "postgresql+asyncpg://auth_admin:auth_admin@auth-db/auth_db_dev",
     echo=True,
     future=True
 )

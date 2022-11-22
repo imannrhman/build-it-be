@@ -1,3 +1,4 @@
+from uuid import UUID
 from typing import List, Optional, Text
 
 from pydantic import condecimal
@@ -9,9 +10,9 @@ from app.model.image import Image
 from app.model.spesifications import Spesifications
 
 
-class ProductCategoryLink(SQLModel, Table=True):
-    product_id: Optional[str] = Field(default=None, foreign_key="product.id", primary_key=True)
-    category_id: Optional[str] = Field(default=None, foreign_key="category.id", primary_key=True)
+class ProductCategoryLink(SQLModel, table=True):
+    product_id: Optional[UUID] = Field(default=None, foreign_key="products.id", primary_key=True)
+    category_id: Optional[UUID] = Field(default=None, foreign_key="categories.id", primary_key=True)
 
 
 class ProductBase(SQLModel):
@@ -25,22 +26,24 @@ class ProductBase(SQLModel):
     maximum_order: Optional[int] = Field(nullable=True)
     minimum_order: Optional[int] = Field(nullable=True)
 
-    images: List["Image"] = Relationship(back_populates="images")
-    categories: List["Category"] = Relationship(back_populates="categories", link_model=ProductCategoryLink)
-    general_spesifications: List["Spesifications"] = \
-        Relationship(back_populates="spesifications")
-    size: List["Spesifications"] = \
-        Relationship(back_populates="spesifications")
-    technical: List["Spesifications"] = \
-        Relationship(back_populates="spesifications")
-
 
 class Product(
     UUIDModel,
     ProductBase,
     TimestampModel,
-    Table=True
+    table=True
 ):
+    category_id: Optional[UUID] = Field(
+        default=None, foreign_key="categories.id"
+    )
+    images: List["Image"] = Relationship(back_populates="products")
+    general_spesifications: List["Spesifications"] = \
+        Relationship(back_populates="products")
+    size: List["Spesifications"] = \
+        Relationship(back_populates="products")
+    technical: List["Spesifications"] = \
+        Relationship(back_populates="products")
+
     __tablename__ = "products"
 
 

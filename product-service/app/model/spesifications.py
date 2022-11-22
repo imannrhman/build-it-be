@@ -1,3 +1,4 @@
+from uuid import UUID
 from typing import Optional
 
 from sqlmodel import SQLModel, Field
@@ -9,7 +10,7 @@ class SpesificationKeyBase(SQLModel):
     key: Optional[str] = Field(max_length=255, nullable=True)
 
 
-class SpesificationKey(UUIDModel, SpesificationKeyBase, TimestampModel, Table=True):
+class SpesificationKey(UUIDModel, SpesificationKeyBase, TimestampModel, table=True):
     __tablename__ = "spesification_keys"
 
 
@@ -17,15 +18,15 @@ class SpesificationValueBase(SQLModel):
     value: Optional[str] = Field(max_length=255, nullable=True)
 
 
-class GeneralSpesificationValue(UUIDModel, SpesificationValueBase, TimestampModel, Table=True):
+class GeneralSpesificationValue(UUIDModel, SpesificationValueBase, TimestampModel, table=True):
     __tablename__ = "spesification_values"
 
 
 class SpesificationsBase(SQLModel):
-    key: Optional[str] = Field(default=None, foreign_key="general_products_key.id")
-    value: Optional[str] = Field(default=None, foreign_key="general_products_value.id")
-    product_id: Optional[str] = Field(default=None, foreign_key="product.id", primary_key=True)
+    key: Optional[UUID] = Field(default=None, foreign_key="spesification_keys.id")
+    value: Optional[UUID] = Field(default=None, foreign_key="spesification_values.id")
 
 
-class Spesifications(UUIDModel, SpesificationsBase, TimestampModel, Table=True):
-    __tablename__ = "spesificcations"
+class Spesifications(UUIDModel, SpesificationsBase, TimestampModel, table=True):
+    __tablename__ = "spesifications"
+    product_id: Optional[str] = Field(default=None, foreign_key="products.id")

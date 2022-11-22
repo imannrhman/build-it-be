@@ -22,11 +22,14 @@ class ProductDAL:
         return product
 
     async def get_all_product(self) -> List[Product]:
-        statement = select(Product) \
-            .order_by(Product.created_at)
+        try:
+            statement = select(Product) \
+                .order_by(Product.created_at)
 
-        result = await self.session.execute(statement=statement)
-        return result.scalars().all()
+            result = await self.session.execute(statement=statement)
+            return result.scalars().all()
+        except ValueError as e:
+            return []
 
     async def get_product(self, product_id: str | UUID) -> Product:
         statement = select(Product) \

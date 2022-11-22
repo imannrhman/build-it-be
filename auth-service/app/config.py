@@ -1,5 +1,6 @@
 from pydantic import BaseSettings
 
+
 class Settings(BaseSettings):
     DEFAULT_VARIABLE: str = "default value"
     SECRET_KEY: str

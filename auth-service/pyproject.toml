@@ -4,15 +4,20 @@ version = "0.1.0"
 description = ""
 authors = ["man-droid23 <alifilmannafian6b@gmail.com>"]
 readme = "README.md"
-packages = [{include = "auth_service"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = {extras = ["all"], version = "^0.87.0"}
-sqlalchemy = "^1.4.44"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-psycopg2 = "^2.9.5"
+asyncpg = "^0.27.0"
+fastapi = "^0.87.0"
+sqlmodel = "^0.0.8"
+uvicorn = "^0.20.0"
+alembic = "^1.8.1"
+pytest = "^7.2.0"
+pytest-asyncio = "^0.20.2"
+httpx = "^0.23.0"
+python-dotenv = "^0.21.0"
 
 
 [build-system]
