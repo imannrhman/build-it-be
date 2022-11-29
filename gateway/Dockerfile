@@ -2,7 +2,6 @@ FROM python:3-slim-buster
 
 ARG ENV_FILE
 
-
 ENV ENV_FILE=${ENV_FILE} \
     PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1 \
@@ -14,7 +13,7 @@ ENV ENV_FILE=${ENV_FILE} \
 
 
 # System deps:
-RUN apt-get update && apt-get upgrade -y && apt-get install gcc
+RUN apt-get update && apt-get upgrade -y && apt-get install gcc -y
 RUN pip install "poetry==$POETRY_VERSION"
 
 # Copy only requirements to cache them in docker layer
